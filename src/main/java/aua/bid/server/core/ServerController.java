@@ -1,13 +1,20 @@
-package aua.bid.core;
+package aua.bid.server.core;
 
 import java.io.*;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-class Controller{
+public class ServerController extends UnicastRemoteObject implements RemoteController {
 
     private static int lastAuctionNumber = 0;
 
-    private void makeBid(int bidderNumber){
+    protected ServerController() throws RemoteException {
+        super();
+    }
+
+    public void makeBid(int bidderNumber)  throws RemoteException {
         System.out.println("Bidder N" + bidderNumber + ": please provide your email and next your price:");
         Scanner scanner = new Scanner(System.in);
         String email = scanner.next();
@@ -22,7 +29,7 @@ class Controller{
         }
     }
 
-    private boolean login() {
+    public boolean login() throws RemoteException{
         final String adminFileName = "admin.txt";
         try (FileReader fr = new FileReader(adminFileName);
              BufferedReader br = new BufferedReader(fr)) {
@@ -48,7 +55,7 @@ class Controller{
         return false;
     }
 
-    private void finaliseResult(int auction){
+    public void finaliseResult(int auction) throws RemoteException{
 
         try (FileReader fr = new FileReader(auction+".txt");
              BufferedReader br = new BufferedReader(fr)) {
@@ -74,9 +81,11 @@ class Controller{
         }
     }
 
-    private void startAuction(){
+    public void startAuction() throws RemoteException{
         ++lastAuctionNumber;
-        if(login()){
+        System.out.println("Starting auction N"+lastAuctionNumber);
+        boolean isLogined = login();
+        if(isLogined){
             int bidNumber = 3;
             for(int i = 0; i<bidNumber;++i) {
                 makeBid(i+1);
@@ -87,14 +96,7 @@ class Controller{
         }
     }
 
-    public static void main(String[] args){
-        Controller controller = new Controller();
-        controller.startAuction();
-
-
-    }
-
-    private static void createAdminRecord(String file){
+    public void createAdminRecord(String file) throws RemoteException{
         System.out.println("System initialization - please input admin email: ");
         Scanner scanner = new Scanner(System.in);
         String email = scanner.nextLine();
