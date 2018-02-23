@@ -7,10 +7,12 @@ import java.rmi.RemoteException;
 
 public class ClientController {
 
-    public static void main(String args[]){
-        try{
-            RemoteController controller=(RemoteController) Naming.lookup("rmi://"+args[0]+"/Controller");
+    public static void main(String args[]) {
+        try {
+            RemoteController controller = (RemoteController) Naming.lookup("rmi://" + args[0] + "/Controller");
             controller.startAuction();
-        }catch(Exception e){System.out.println(e);}
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
