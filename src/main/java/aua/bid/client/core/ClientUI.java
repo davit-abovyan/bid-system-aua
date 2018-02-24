@@ -1,13 +1,28 @@
 package aua.bid.client.core;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ClientUI extends JFrame {
+    private final JTextArea textArea;
+    private JPanel panel;
+    private DefaultListModel<String> model;
+
     public static void main(String[] args) {
         new ClientUI().setVisible(true);
     }
 
     private ClientUI() {
+        this.textArea = new JTextArea(20, 60);
+        this.initFramesAndActions();
+        addToList("one");
+        addToList("one");
+        addToList("one");
+        addToList("one");
+    }
+
+    private void initFramesAndActions() {
         setSize(600, 600);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -26,38 +41,47 @@ public class ClientUI extends JFrame {
         makeABidByDefault.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                makeABid();
+                makeABidByDefault();
             }
         });
         stopBidding.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                makeABid();
+                stopBidding();
             }
         });
 
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         panel.add(makeABid);
         panel.add(makeABidByDefault);
         panel.add(stopBidding);
 
-        JTextArea textArea = new JTextArea(20, 30);
         panel.add(textArea);
+
+        model = new DefaultListModel<>();
+        JList<String> list = new JList<>(model);
+        panel.add(list);
 
         this.getContentPane().add(panel);
     }
 
-    public void makeABid() {
-        System.out.ptintnl('makeABid');
+    private void makeABid() {
+        System.out.println("makeABid");
+        System.out.println(this.textArea.getText());
     }
 
-    public void makeABidByDefault() {
-        System.out.ptintnl('makeABidByDefault');
+    private void makeABidByDefault() {
+        System.out.println("makeABidByDefault");
+        System.out.println(this.textArea.getText());
 
     }
 
-    public void stopBidding() {
-        System.out.ptintnl('stopBidding');
+    private void stopBidding() {
+        System.out.println("stopBidding");
+        System.out.println(this.textArea.getText());
+    }
 
+    public void addToList(String line) {
+        this.model.addElement(line);
     }
 }
