@@ -16,6 +16,26 @@ public class ClientUI extends JFrame {
         JButton makeABidByDefault = new JButton("Make a bid by default");
         JButton stopBidding = new JButton("Stop Bidding");
 
+
+        makeABid.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                makeABid();
+            }
+        });
+        makeABidByDefault.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                makeABid();
+            }
+        });
+        stopBidding.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                makeABid();
+            }
+        });
+
         JPanel panel = new JPanel();
         panel.add(makeABid);
         panel.add(makeABidByDefault);
@@ -25,5 +45,19 @@ public class ClientUI extends JFrame {
         panel.add(textArea);
 
         this.getContentPane().add(panel);
+    }
+
+    public void makeABid() {
+        System.out.ptintnl('makeABid');
+    }
+
+    public void makeABidByDefault() {
+        System.out.ptintnl('makeABidByDefault');
+
+    }
+
+    public void stopBidding() {
+        System.out.ptintnl('stopBidding');
+
     }
 }
