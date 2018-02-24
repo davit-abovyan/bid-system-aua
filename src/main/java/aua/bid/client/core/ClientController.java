@@ -1,9 +1,8 @@
 package aua.bid.client.core;
 
-import java.net.MalformedURLException;
+import aua.bid.Remote.RemoteController;
+
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
 public class ClientController {
 

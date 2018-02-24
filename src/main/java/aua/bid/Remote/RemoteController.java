@@ -1,4 +1,4 @@
-package aua.bid.client.core;
+package aua.bid.Remote;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

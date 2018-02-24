@@ -1,5 +1,7 @@
 package aua.bid.server.core;
 
+import aua.bid.Remote.RemoteController;
+
 import java.rmi.Naming;
 
 public class TestController {
