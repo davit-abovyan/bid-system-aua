@@ -75,17 +75,6 @@ public class BiddingClient extends JFrame {
     private void makeABid() {
         Set<String> emails = new HashSet<>();
         try {
-            try (FileReader fr = new FileReader(auctionNumber.getText()+".txt");
-                 BufferedReader br = new BufferedReader(fr)) {
-                String row;
-                while ((row = br.readLine()) != null) {
-                    String[] bid = row.split("##");
-                    emails.add(bid[0]);
-                }
-            }catch (IOException ex){
-                ex.printStackTrace();
-            }
-
             if(emails.contains(email.getText())){
                 addToList("The user "+ email.getText() + " has already participated to auction N"+auctionNumber.getText());
                 return;
@@ -102,22 +91,11 @@ public class BiddingClient extends JFrame {
     }
 
     private void requestBidStatus() {
-        try (FileReader fr = new FileReader(auctionNumber.getText()+".txt");
-             BufferedReader br = new BufferedReader(fr)) {
-            String row;
-            String email = "";
-            int price = 0;
-            while ((row = br.readLine()) != null) {
-                String[] bid = row.split("##");
-                if(Integer.valueOf(bid[1]) > price ){
-                    price = Integer.valueOf(bid[1]);
-                    email = bid[0];
-                }
-            }
-        }catch (IOException ex){
-            ex.printStackTrace();
+        try {
+            addToList(controller.bidResult(auctionNumber.getText()));
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
-            addToList(email+" won with price "+price);
     }
 
     public void addToList(String line) {

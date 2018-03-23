@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ServerController extends UnicastRemoteObject implements RemoteController {
 
     private static int lastAuctionNumber = 0;
-    private static ArrayList<Integer> runningAuctions = new ArrayList<>();
+    private static ArrayList<String> runningAuctions = new ArrayList<>();
 
     protected ServerController() throws RemoteException {
         super();
@@ -16,7 +16,7 @@ public class ServerController extends UnicastRemoteObject implements RemoteContr
 
     public boolean makeBid(String bid)  throws RemoteException {
         String[] temp = bid.split("##");
-        if(runningAuctions.contains(Integer.valueOf(temp[0]))) {
+        if(runningAuctions.contains(temp[0])) {
             try (FileWriter fw = new FileWriter(temp[0] + ".txt", true);
                  BufferedWriter bw = new BufferedWriter(fw)) {
                 bw.write(temp[1] + "##" + temp[2] + "\n");
@@ -71,7 +71,7 @@ public class ServerController extends UnicastRemoteObject implements RemoteContr
             }
 
             startServer.addToList(email+" won with price "+price);
-            runningAuctions.remove(Integer.valueOf(startServer.auctionNumber.getText()));
+            runningAuctions.remove(Integer.toString(lastAuctionNumber));
 
         }catch (IOException ex){
             ex.printStackTrace();
@@ -81,7 +81,7 @@ public class ServerController extends UnicastRemoteObject implements RemoteContr
     public void startAuction(StartServer startServer) throws RemoteException{
         ++lastAuctionNumber;
         startServer.addToList("Starting auction N"+lastAuctionNumber);
-        runningAuctions.add(lastAuctionNumber);
+        runningAuctions.add(Integer.toString(lastAuctionNumber));
     }
 
     private void createAdminRecord(String file, StartServer startServer) throws RemoteException{
@@ -101,5 +101,45 @@ public class ServerController extends UnicastRemoteObject implements RemoteContr
         }catch (IOException ex){
             ex.printStackTrace();
         }
+    }
+
+    public void allBids(StartServer startServer) throws RemoteException{
+
+        try (FileReader fr = new FileReader(lastAuctionNumber+1+".txt");
+             BufferedReader br = new BufferedReader(fr)) {
+            String row;
+            String email = "";
+            int price = 0;
+            while ((row = br.readLine()) != null) {
+                String[] bid = row.split("##");
+                startServer.addToList(bid[0]+" with price "+bid[1]);
+            }
+        }catch (IOException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public String bidResult(String auctionId) throws RemoteException {
+        String result = "";
+        if(runningAuctions.contains(auctionId)) result = "Auction is not closed yet";
+        else {
+            try (FileReader fr = new FileReader(auctionId + ".txt");
+                 BufferedReader br = new BufferedReader(fr)) {
+                String row;
+                String email = "";
+                int price = 0;
+                while ((row = br.readLine()) != null) {
+                    String[] bid = row.split("##");
+                    if (Integer.valueOf(bid[1]) > price) {
+                        price = Integer.valueOf(bid[1]);
+                        email = bid[0];
+                    }
+                }
+                result = email + " won with price " + price;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return result;
     }
 }
