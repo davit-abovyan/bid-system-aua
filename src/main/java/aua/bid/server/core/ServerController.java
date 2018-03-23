@@ -1,8 +1,5 @@
 package aua.bid.server.core;
 
-import aua.bid.Remote.Bid;
-import aua.bid.Remote.Bidder;
-
 import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -18,11 +15,12 @@ public class ServerController extends UnicastRemoteObject implements RemoteContr
         super();
     }
 
-    public void makeBid(Bid bid)  throws RemoteException {
-        if(runningAuctions.contains(bid.getAuctionNumber())) {
-            try (FileWriter fw = new FileWriter(bid.getAuctionNumber() + ".txt", true);
+    public void makeBid(String bid)  throws RemoteException {
+        String[] temp = bid.split("##");
+        if(runningAuctions.contains(Integer.valueOf(temp[0]))) {
+            try (FileWriter fw = new FileWriter(temp[0] + ".txt", true);
                  BufferedWriter bw = new BufferedWriter(fw)) {
-                bw.write(bid.getEmail() + "##" + bid.getPrice() + "\n");
+                bw.write(temp[1] + "##" + temp[2] + "\n");
             } catch (IOException ex) {
                 System.out.println("Something went wrong");
             }

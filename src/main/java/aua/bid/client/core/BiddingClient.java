@@ -71,7 +71,7 @@ public class BiddingClient extends JFrame {
 
     private void makeABid() {
         try {
-            controller.makeBid(new Bid(auctionNumber.getText(), email.getText(), price.getText()));
+            controller.makeBid(auctionNumber.getText() +"##"+ email.getText()+"##"+price.getText());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
