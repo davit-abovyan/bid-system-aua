@@ -5,11 +5,15 @@ import java.awt.*;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-public class StartServer extends JFrame  {
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class StartServer extends JFrame {
 
     private static RemoteController controller;
     private boolean loggedIn = false;
 
+    private final int countdownSeconds = 10;
     public final JTextArea admin;
     public final JTextArea auctionNumber;
     private JPanel panel;
@@ -17,12 +21,16 @@ public class StartServer extends JFrame  {
     private DefaultListModel<String> text;
 
     // IMPORTANT: before running server, start rmiregistry from ... src/main/java folder
-    public static void main(String[] args){
+    public static void main(String[] args) {
         new StartServer().setVisible(true);
     }
 
 
     private StartServer() {
+        statCountDown((i) -> {
+            System.out.println(i);
+        });
+
         this.admin = new JTextArea(1, 20);
         this.auctionNumber = new JTextArea(1, 20);
         this.initFramesAndActions();
@@ -78,7 +86,6 @@ public class StartServer extends JFrame  {
         panel.add(new JList<>(text));
 
 
-
         this.getContentPane().add(panel);
     }
 
@@ -91,17 +98,17 @@ public class StartServer extends JFrame  {
         this.userArea.addElement(line);
     }
 
-    private void login(){
+    private void login() {
         try {
             loggedIn = controller.login(this);
-            if(loggedIn) editAdminText(admin.getText());
+            if (loggedIn) editAdminText(admin.getText());
         } catch (RemoteException e1) {
             e1.printStackTrace();
         }
     }
 
-    private void startAuction(){
-        if(loggedIn){
+    private void startAuction() {
+        if (loggedIn) {
             try {
                 controller.startAuction(this);
             } catch (RemoteException e1) {
@@ -112,8 +119,8 @@ public class StartServer extends JFrame  {
         }
     }
 
-    private void finalizeResults(){
-        if(loggedIn){
+    private void finalizeResults() {
+        if (loggedIn) {
             try {
                 controller.finaliseResult(this);
             } catch (RemoteException e1) {
@@ -122,5 +129,21 @@ public class StartServer extends JFrame  {
         } else {
             addToList("You are not logged in, please login");
         }
+    }
+
+    private void statCountDown(EventEmitter eventListener) {
+        final Timer timer = new Timer();
+        int milisecondsInSeconds = 1000;
+        timer.scheduleAtFixedRate(new TimerTask() {
+            int i = countdownSeconds;
+
+            public void run() {
+                i--;
+                eventListener.emit(i);
+                if (i < 0)
+                    timer.cancel();
+
+            }
+        }, 0, 1 * milisecondsInSeconds);
     }
 }
