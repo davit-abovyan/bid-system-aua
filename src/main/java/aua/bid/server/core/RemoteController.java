@@ -8,4 +8,6 @@ public interface RemoteController extends Remote {
     boolean login(StartServer startServer) throws RemoteException;
     void finaliseResult(StartServer startServer) throws RemoteException;
     void startAuction(StartServer startServer) throws RemoteException;
+    void allBids(StartServer startServer) throws RemoteException;
+    String bidResult(String auctionId) throws RemoteException;
 }

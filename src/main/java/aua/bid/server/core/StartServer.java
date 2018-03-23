@@ -44,9 +44,10 @@ public class StartServer extends JFrame  {
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        JButton login = new JButton("-      Login     -");
-        JButton startAuction = new JButton("- Start auction -");
-        JButton finalizeResults = new JButton("- Finalize results -");
+        JButton login = new JButton("Login");
+        JButton startAuction = new JButton("Start auction");
+        JButton finalizeResults = new JButton("Finalize results");
+        JButton allBids = new JButton("All bids");
 
 
         login.addActionListener(e -> {
@@ -60,11 +61,15 @@ public class StartServer extends JFrame  {
         finalizeResults.addActionListener(e -> {
             finalizeResults();
         });
+        allBids.addActionListener(e -> {
+            allBids();
+        });
 
         panel = new JPanel();
         panel.add(login);
         panel.add(startAuction);
         panel.add(finalizeResults);
+        panel.add(allBids);
 
         panel.add(new Label("Admin email goes here"));
         panel.add(admin);
@@ -116,6 +121,18 @@ public class StartServer extends JFrame  {
         if(loggedIn){
             try {
                 controller.finaliseResult(this);
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
+        } else {
+            addToList("You are not logged in, please login");
+        }
+    }
+
+    private void allBids(){
+        if(loggedIn){
+            try {
+                controller.allBids(this);
             } catch (RemoteException e1) {
                 e1.printStackTrace();
             }
