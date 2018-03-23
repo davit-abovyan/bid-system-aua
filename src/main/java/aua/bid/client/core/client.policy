@@ -1,0 +1,4 @@
+
+grant codeBase "C:\Users\David\bidding\src\main\java\aua\bid\client\core" {
+      permission java.security.AllPermission;
+  };

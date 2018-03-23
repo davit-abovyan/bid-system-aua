@@ -4,7 +4,6 @@ import java.io.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ServerController extends UnicastRemoteObject implements RemoteController {
 
@@ -15,16 +14,18 @@ public class ServerController extends UnicastRemoteObject implements RemoteContr
         super();
     }
 
-    public void makeBid(String bid)  throws RemoteException {
+    public boolean makeBid(String bid)  throws RemoteException {
         String[] temp = bid.split("##");
         if(runningAuctions.contains(Integer.valueOf(temp[0]))) {
             try (FileWriter fw = new FileWriter(temp[0] + ".txt", true);
                  BufferedWriter bw = new BufferedWriter(fw)) {
                 bw.write(temp[1] + "##" + temp[2] + "\n");
+                return true;
             } catch (IOException ex) {
                 System.out.println("Something went wrong");
             }
         }
+        return false;
     }
 
     public boolean login(StartServer startServer) throws RemoteException{
@@ -33,12 +34,12 @@ public class ServerController extends UnicastRemoteObject implements RemoteContr
              BufferedReader br = new BufferedReader(fr)) {
             String email;
             if ((email = br.readLine()) != null) {
-                    if (email.equals(startServer.textArea.getText())) {
-                        startServer.addToList("Admin: " + email);
+                    if (email.equals(startServer.admin.getText())) {
+                        startServer.editAdminText(email);
                         return true;
                     }
                     else {
-                        startServer.addToList("Wrong email.");
+                        startServer.addToList("The email is wrong, please try again.");
                         return false;
                     }
 
@@ -46,7 +47,7 @@ public class ServerController extends UnicastRemoteObject implements RemoteContr
                 startServer.addToList("Something went wrong, please restart application.");
             }
         } catch (FileNotFoundException e) {
-            createAdminRecord(adminFileName);
+            createAdminRecord(adminFileName, startServer);
             return true;
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -69,7 +70,8 @@ public class ServerController extends UnicastRemoteObject implements RemoteContr
                 }
             }
 
-            System.out.println(email+" won with price "+price);
+            startServer.addToList(email+" won with price "+price);
+            runningAuctions.remove(Integer.valueOf(startServer.auctionNumber.getText()));
 
         }catch (IOException ex){
             ex.printStackTrace();
@@ -82,17 +84,14 @@ public class ServerController extends UnicastRemoteObject implements RemoteContr
         runningAuctions.add(lastAuctionNumber);
     }
 
-    public void createAdminRecord(String file) throws RemoteException{
-        System.out.println("System initialization - please input admin email: ");
-        Scanner scanner = new Scanner(System.in);
-        String email = scanner.nextLine();
+    private void createAdminRecord(String file, StartServer startServer) throws RemoteException{
+        startServer.addToList("System initialization - please input admin email: ");
+        String email = startServer.admin.getText();
         while(true){
             if("".equals(email)){
-                System.out.println("Please input email");
-                email = scanner.nextLine();
+                startServer.addToList("Please input email");
             } else if(!email.contains("@") || !email.contains(".")){
-                System.out.println("Please input valid email");
-                email = scanner.nextLine();
+                startServer.addToList("Please input valid email");
             } else break;
         }
         String adminEmail = email;

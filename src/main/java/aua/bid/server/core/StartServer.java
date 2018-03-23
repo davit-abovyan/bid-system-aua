@@ -1,6 +1,7 @@
 package aua.bid.server.core;
 
 import javax.swing.*;
+import java.awt.*;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
@@ -9,9 +10,11 @@ public class StartServer extends JFrame  {
     private static RemoteController controller;
     private boolean loggedIn = false;
 
-    public final JTextArea textArea;
+    public final JTextArea admin;
+    public final JTextArea auctionNumber;
     private JPanel panel;
-    private DefaultListModel<String> model;
+    private DefaultListModel<String> userArea;
+    private DefaultListModel<String> text;
 
     // IMPORTANT: before running server, start rmiregistry from ... src/main/java folder
     public static void main(String[] args){
@@ -20,9 +23,10 @@ public class StartServer extends JFrame  {
 
 
     private StartServer() {
-        this.textArea = new JTextArea(3, 40);
+        this.admin = new JTextArea(1, 20);
+        this.auctionNumber = new JTextArea(1, 20);
         this.initFramesAndActions();
-        addToList("You are not logged in, please login");
+        editAdminText("Not logged in");
 
         try {
             controller = new ServerController();
@@ -40,18 +44,18 @@ public class StartServer extends JFrame  {
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        JButton login = new JButton("Login");
-        JButton startAuction = new JButton("Start auction");
-        JButton finalizeResults = new JButton("Finalize results");
+        JButton login = new JButton("-      Login     -");
+        JButton startAuction = new JButton("- Start auction -");
+        JButton finalizeResults = new JButton("- Finalize results -");
 
 
         login.addActionListener(e -> {
             login();
-            textArea.removeAll();
+            admin.removeAll();
         });
         startAuction.addActionListener(e -> {
             startAuction();
-            textArea.removeAll();
+            admin.removeAll();
         });
         finalizeResults.addActionListener(e -> {
             finalizeResults();
@@ -62,23 +66,35 @@ public class StartServer extends JFrame  {
         panel.add(startAuction);
         panel.add(finalizeResults);
 
-        panel.add(textArea);
+        panel.add(new Label("Admin email goes here"));
+        panel.add(admin);
+        userArea = new DefaultListModel<>();
+        panel.add(new JList<>(userArea));
 
-        model = new DefaultListModel<>();
-        JList<String> list = new JList<>(model);
-        panel.add(list);
+        panel.add(new Label("Selected auction number"));
+        panel.add(auctionNumber);
+
+        text = new DefaultListModel<>();
+        panel.add(new JList<>(text));
+
+
 
         this.getContentPane().add(panel);
     }
 
     public void addToList(String line) {
-        this.model.clear();
-        this.model.addElement(line);
+        this.text.addElement(line);
+    }
+
+    public void editAdminText(String line) {
+        this.userArea.clear();
+        this.userArea.addElement(line);
     }
 
     private void login(){
         try {
             loggedIn = controller.login(this);
+            if(loggedIn) editAdminText(admin.getText());
         } catch (RemoteException e1) {
             e1.printStackTrace();
         }

@@ -1,3 +1,3 @@
 grant codeBase "C:\Users\David\bidding\src\main\java\aua\bid\server\core" {
-    permission java.security.AllPermission;
-};
+      permission java.security.AllPermission;
+  };
