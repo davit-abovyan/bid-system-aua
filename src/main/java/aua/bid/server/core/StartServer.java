@@ -27,10 +27,6 @@ public class StartServer extends JFrame {
 
 
     private StartServer() {
-        statCountDown((i) -> {
-            System.out.println(i);
-        });
-
         this.admin = new JTextArea(1, 20);
         this.auctionNumber = new JTextArea(1, 20);
         this.initFramesAndActions();
@@ -116,6 +112,9 @@ public class StartServer extends JFrame {
         if (loggedIn) {
             try {
                 controller.startAuction(this);
+                statCountDown((i) -> {
+                    System.out.println(i);
+                });
             } catch (RemoteException e1) {
                 e1.printStackTrace();
             }
@@ -145,7 +144,7 @@ public class StartServer extends JFrame {
             public void run() {
                 i--;
                 eventListener.emit(i);
-                if (i < 0)
+                if (i < 1)
                     timer.cancel();
 
             }

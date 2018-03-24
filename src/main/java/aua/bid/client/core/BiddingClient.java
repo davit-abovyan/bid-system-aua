@@ -47,7 +47,7 @@ public class BiddingClient extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        JButton makeABid = new JButton("Make a nid");
+        JButton makeABid = new JButton("Make a bid");
         JButton requestBidStatus = new JButton("Request bid status");
 
 
@@ -75,16 +75,16 @@ public class BiddingClient extends JFrame {
     private void makeABid() {
         Set<String> emails = new HashSet<>();
         try {
-            if(emails.contains(email.getText())){
-                addToList("The user "+ email.getText() + " has already participated to auction N"+auctionNumber.getText());
+            if (emails.contains(email.getText())) {
+                addToList("The user " + email.getText() + " has already participated to auction N" + auctionNumber.getText());
                 return;
             }
 
-            boolean result = controller.makeBid(auctionNumber.getText() +"##"+ email.getText()+"##"+price.getText());
-            if(result)
-                addToList("Bid on Auction N"+auctionNumber.getText()+" for user "+ email.getText() + " is recorded");
+            boolean result = controller.makeBid(auctionNumber.getText() + "##" + email.getText() + "##" + price.getText());
+            if (result)
+                addToList("Bid on Auction N" + auctionNumber.getText() + " for user " + email.getText() + " is recorded");
             else
-                addToList("No new bid allowed for Auction N"+auctionNumber.getText());
+                addToList("No new bid allowed for Auction N" + auctionNumber.getText());
         } catch (RemoteException e) {
             e.printStackTrace();
         }
