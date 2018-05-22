@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ejb" name="AuctionSystem:ejb exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/AuctionSystem_ejb_exploded</output-path>
+    <root id="root">
+      <element id="module-output" name="AuctionSystem" />
+      <element id="library" level="project" name="JBoss Weld-2.0.3" />
+      <element id="javaee-facet-resources" facet="AuctionSystem/web/Web" />
+      <element id="javaee-facet-resources" facet="AuctionSystem/ejb/EJB" />
+    </root>
+  </artifact>
+</component>

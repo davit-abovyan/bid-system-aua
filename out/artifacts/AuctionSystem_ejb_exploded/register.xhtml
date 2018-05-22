@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:p="http://java.sun.com/jsf/html" xml:lang="en" lang="en"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<head>
+    <title>Register</title>
+</head>
+<body>
+<div >
+    <div >#{user.responseMessage}</div>
+    <h:form styleClass="form-signIn">
+
+        <h2 >Register</h2>
+
+        <p:inputText value="#{user.email}" pt:placeholder = "Your Email address" required="true" requiredMessage="*Empty"/>
+        <br/>
+        <p:inputSecret value="#{user.password}" pt:placeholder="Select A Password" required="true" requiredMessage="*Empty"/>
+
+        <hr />
+
+        <h:commandButton value="Register" action="#{user.register}"/>
+    </h:form>
+</div>
+</body>
+</html>
