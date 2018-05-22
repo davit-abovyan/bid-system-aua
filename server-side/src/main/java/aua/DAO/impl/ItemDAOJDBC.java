@@ -8,7 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+@Stateful
+@Remote(ItemDAO.class)
 public class ItemDAOJDBC implements ItemDAO {
 
     @Override
