@@ -1,23 +1,33 @@
+
 package aua.DAO;
 
-public class ItemDAO implements Item {
-    @Override
-    public void add(Item object) {
+import aua.model.Item;
 
-    }
+public interface ItemDAO {
+    /**
+     * add auction item
+     * @param object
+     */
+    void add(Item object);
 
-    @Override
-    public boolean edit(Item object) {
-        return false;
-    }
+    /**
+     * edit auction item
+     * @param object
+     * @return
+     */
+    boolean edit(Item object);
 
-    @Override
-    public Item read(String id) {
-        return null;
-    }
+    /**
+     * get auctioon item
+     * @param id
+     * @return
+     */
+    ItemDAO read(String id);
 
-    @Override
-    public boolean delete(String id) {
-        return false;
-    }
+    /**
+     * remove auction item
+     * @param id
+     * @return
+     */
+    boolean delete(String id);
 }
