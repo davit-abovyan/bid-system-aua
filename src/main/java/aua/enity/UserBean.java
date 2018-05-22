@@ -52,6 +52,8 @@ public class UserBean {
         this.isLoggedIn = loginStatus;
     }
 
+    public void logOut() { setIsLoggedIn(false); }
+
     public double getAccountBalance() {
         return accountBalance;
     }
