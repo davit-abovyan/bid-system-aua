@@ -1,4 +1,4 @@
-package aua.enity;
+package aua.entity;
 
 import aua.session.UserSessionBeanRemote;
 import aua.utils.ResponseStatus;
@@ -72,13 +72,13 @@ public class UserBean {
     }
 
     @EJB
-    UserSessionBeanRemote user;
+    UserSessionBeanRemote userSession;
 
     Context context = null;
 
     public String login() {
         if (email != null && password != null) {
-            ResponseStatus isRegisteredUser = user.login(email, password);
+            ResponseStatus isRegisteredUser = userSession.login(email, password);
             if (isRegisteredUser.getStatus() == 200) {
                 setIsLoggedIn(true);
                 setResponseMessage("Hurrray");
@@ -100,7 +100,7 @@ public class UserBean {
 
     public String register() {
         if (!email.trim().equals("") && !password.trim().equals("")) {
-            ResponseStatus register = user.register(email, password);
+            ResponseStatus register = userSession.register(email, password);
             if (register.getStatus() == 200) {
                 setResponseMessage(register.getMessage());
                 System.out.println(register.getMessage());
