@@ -6,9 +6,6 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jstl/core">
-<!--<f:view>-->
-<!--<h:outputLabel value="Hello, world"/>-->
-<!--</f:view>-->
 <head>
 
 </head>
@@ -18,12 +15,18 @@
         <li>
             <a href="index.xhtml">Here</a>
         </li>
-        <c:if test="${!user.isLoggedIn}">
-            <li><a href="login.xhtml">Login</a></li>
-            <li><a href="register.xhtml">Register</a></li>
-        </c:if>
+        <c:choose>
+            <c:when test="${!user.isLoggedIn}">
+                <li><a href="login.xhtml">Login</a></li>
+                <li><a href="register.xhtml">Register</a></li>
+            </c:when>
+            <c:otherwise>
+                <h:form>
+                    <h:commandButton value="Logout" action="#{user.logOut}"/>
+                </h:form>
+            </c:otherwise>
+        </c:choose>
     </ul>
-
     <h1>Main page</h1>
 </div>
 </body>

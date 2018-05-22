@@ -8,8 +8,6 @@ import javax.ejb.Stateless;
 @Stateless(name = "UserSessionEJB")
 public class UserSessionBean implements UserSessionBeanRemote {
 
-    public static boolean isLoggedIn = false;
-
     public UserSessionBean() {
     }
 
@@ -18,10 +16,9 @@ public class UserSessionBean implements UserSessionBeanRemote {
         int isUserRegistered;
         try {
             isUserRegistered = DbManager.getInstance().isUserExist(email, password);
-            if (isUserRegistered != -1) {
-                isLoggedIn = true;
+            if (isUserRegistered != -1)
                 return new ResponseStatus(200, "Welcome Back!");
-            } else
+            else
                 return new ResponseStatus(401, "Invalid Email or Password");
         } catch (Exception e) {
             return new ResponseStatus(500, "Barev Gag.");
