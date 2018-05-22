@@ -13,7 +13,7 @@
     <bytecodeTargetLevel target="1.8">
       <module name="AuctionSystem" target="1.8" />
       <module name="client" target="1.5" />
-      <module name="server-side" target="1.5" />
+      <module name="server-side" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
