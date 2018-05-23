@@ -7,7 +7,11 @@ public class Item {
     private double price;
     private String picture_url;
 
-    public Item() {
+    public Item(String n, String d, double p, String pic) {
+        name = n;
+        description = d;
+        price = p;
+        picture_url = pic;
     }
 
     public int getId() {

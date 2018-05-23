@@ -28,6 +28,16 @@
         </c:choose>
     </ul>
     <h1>Main page</h1>
+    <c:forEach items="#{items.itemsList()}" var="item">
+        <div class="col-md-4 col-md-offset-0 border" style="padding: 0; color: #5FB0E4">
+            <h:outputText value="#{item.name}"/><br/>
+            <div style="padding: 10px; width: 300px; height: 230px; margin: auto">
+            </div>
+        </div>
+        <div class="col-md-8 col-md-offset-0 border" style="padding-bottom: 10px; color: #5FB0E4">
+            <h:outputText value="#{item.description}"/>
+        </div>
+    </c:forEach>
 </div>
 </body>
 </html>

@@ -4,6 +4,8 @@ import aua.DAO.DBManager;
 import aua.DAO.ItemDAO;
 import aua.model.Item;
 
+import javax.ejb.Remote;
+import javax.ejb.Stateful;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

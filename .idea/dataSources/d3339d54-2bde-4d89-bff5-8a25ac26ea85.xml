@@ -912,36 +912,123 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="230" parent="3" name="user">
+    <table id="230" parent="3" name="history">
       <Engine>InnoDB</Engine>
     </table>
-    <column id="231" parent="230" name="email">
+    <table id="231" parent="3" name="items">
+      <Engine>InnoDB</Engine>
+    </table>
+    <table id="232" parent="3" name="user">
+      <Engine>InnoDB</Engine>
+    </table>
+    <column id="233" parent="230" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="234" parent="230" name="item_id">
+      <Position>2</Position>
+      <DataType>varchar(5)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="235" parent="230" name="user_id">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="236" parent="230" name="sale_date">
+      <Position>4</Position>
+      <DataType>date|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="237" parent="230" name="item_id_fk">
+      <ColNames>item_id</ColNames>
+    </index>
+    <index id="238" parent="230" name="user_id_fk">
+      <ColNames>user_id</ColNames>
+    </index>
+    <key id="239" parent="230" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="240" parent="230" name="item_id_fk">
+      <ColNames>item_id</ColNames>
+      <RefSchemaName>auction</RefSchemaName>
+      <RefTableName>items</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="241" parent="230" name="user_id_fk">
+      <ColNames>user_id</ColNames>
+      <RefSchemaName>auction</RefSchemaName>
+      <RefTableName>user</RefTableName>
+      <RefColNames>Id</RefColNames>
+    </foreign-key>
+    <column id="242" parent="231" name="id">
+      <Position>1</Position>
+      <DataType>varchar(5)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="243" parent="231" name="name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="244" parent="231" name="description">
+      <Position>3</Position>
+      <DataType>text|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="245" parent="231" name="price">
+      <Position>4</Position>
+      <DataType>double|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="246" parent="231" name="picture_url">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;/img/items/default_image.jpg&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="247" parent="231" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="248" parent="232" name="email">
       <Position>1</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="232" parent="230" name="password">
+    <column id="249" parent="232" name="password">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="233" parent="230" name="Id">
+    <column id="250" parent="232" name="Id">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="234" parent="230" name="user_Id_uindex">
+    <index id="251" parent="232" name="user_Id_uindex">
       <ColNames>Id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="235" parent="230" name="PRIMARY">
+    <key id="252" parent="232" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="236" parent="230" name="user_Id_uindex">
+    <key id="253" parent="232" name="user_Id_uindex">
       <ColNames>Id</ColNames>
       <UnderlyingIndexName>user_Id_uindex</UnderlyingIndexName>
     </key>
